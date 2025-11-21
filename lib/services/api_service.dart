@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/task.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://192.168.1.3/task_manager/backend/api';
+  static const String baseUrl = 'http://10.0.2.2:8000/task_manager/backend/api';
 
   static Future<List<Task>> getTasks() async {
     final response = await http.get(Uri.parse('$baseUrl/tasks.php'));
