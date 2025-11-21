@@ -17,8 +17,6 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
 
-  List<Category> categories = [];
-  Category? _selectedCategory;
   String _selectedPriority = 'medium';
   String? _selectedDueDate;
 
@@ -29,24 +27,6 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     _descriptionController = TextEditingController(text: widget.task?.description ?? '');
     _selectedPriority = widget.task?.priority ?? 'medium';
     _selectedDueDate = widget.task?.dueDate;
-    _loadCategories();
-  }
-
-  Future<void> _loadCategories() async {
-    try {
-      final loadedCategories = await ApiService.getCategories();
-      setState(() {
-        categories = loadedCategories;
-        if (widget.task?.categoryId != null) {
-          _selectedCategory = categories.firstWhere(
-                (cat) => cat.id == widget.task?.categoryId,
-            orElse: () => categories.first,
-          );
-        }
-      });
-    } catch (e) {
-      print('Error loading categories: $e');
-    }
   }
 
   Future<void> _selectDate() async {
@@ -69,7 +49,6 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
         id: widget.task?.id,
         title: _titleController.text,
         description: _descriptionController.text,
-        categoryId: _selectedCategory?.id,
         priority: _selectedPriority,
         dueDate: _selectedDueDate,
         isCompleted: widget.task?.isCompleted ?? false,
@@ -129,35 +108,6 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 3,
-              ),
-              SizedBox(height: 16),
-              DropdownButtonFormField<Category>(
-                value: _selectedCategory,
-                decoration: InputDecoration(
-                  labelText: 'Category',
-                  border: OutlineInputBorder(),
-                ),
-                items: categories.map((Category category) {
-                  return DropdownMenuItem<Category>(
-                    value: category,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 16,
-                          height: 16,
-                          color: Color(int.parse(category.color.replaceAll('#', '0xFF'))),
-                        ),
-                        SizedBox(width: 8),
-                        Text(category.name),
-                      ],
-                    ),
-                  );
-                }).toList(),
-                onChanged: (Category? newValue) {
-                  setState(() {
-                    _selectedCategory = newValue;
-                  });
-                },
               ),
               SizedBox(height: 16),
               DropdownButtonFormField<String>(

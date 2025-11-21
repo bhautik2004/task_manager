@@ -105,15 +105,6 @@ class _TaskListScreenState extends State<TaskListScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(task.description),
-                  if (task.categoryName != null)
-                    Chip(
-                      label: Text(
-                        task.categoryName!,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      backgroundColor: Color(int.parse(
-                          task.categoryColor!.replaceAll('#', '0xFF'))),
-                    ),
                   Row(
                     children: [
                       Icon(Icons.flag, size: 16,
