@@ -2,11 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/task.dart';
 
-// For physical device testing, replace with your computer's IP address
-// Example: 'http://192.168.1.3:8000/task_manager/task_manager_api'
-// To find your IP: Windows - ipconfig, macOS/Linux - ifconfig or ip addr
 class ApiService {
-  static const String baseUrl = 'http://192.168.1.3:8000/task_manager/task_manager_api'; // Change this for physical device
+  static const String baseUrl = 'http://localhost:7882/task_manager_api'; // Change this for physical device
 
   static Future<List<Task>> getTasks() async {
     final response = await http.get(Uri.parse('$baseUrl/read_tasks.php'));
